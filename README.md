@@ -1,43 +1,37 @@
 # V-Space for CanSat in Europe 2023
-This repository contains code from team V-Space's (which I was part of) participation in the CanSat in Greece and CanSat in Europe 2023 contest. The team managed to recieve the "Best CanSat Project" award in the local contest and the "Highest Technical Achievment Award" in the European one.
+This repository contains the code from team V-Space's participation in the CanSat in Greece and CanSat in Europe 2023 contests, of which I was a member. The team received the "Best CanSat Project" award in the local contest and the "Highest Technical Achievement Award" in the European competition.
 
-This contest has educational purpose and it is addressed to highschool students. Its objectives are to build a small satelite ( the size of a soda can ), which will be launched at the hight of 1km and will have to complete 2 missions:
+This contest is educational in nature and is aimed at high school students. Its objective is to build a small satellite (the size of a soda can), which will be launched to an altitude of 1 km and will have to complete two missions:
 
-1) a primary mission, which is common for every participating team and it's goal is to recieve temperatue and atmosperic pressure data via telecommunication allong with a successful retrival of the CanSat after its landing.
+1) A primary mission, which is common for all participating teams. Its goal is to collect temperature and atmospheric pressure data via telecommunication, along with the successful retrieval of the CanSat after its landing.
 
-2) the secondary mission is up for each team to decide.
+2) A secondary mission, which is determined by each team.
 
-For our secondary mission, we implemented a telecommunicational network which contains:
+For our secondary mission, we implemented a telecommunication network consisting of:
 
-- the cansat (CS)
+- The CanSat (CS)
+- The ground station (GS)
+- Three ground devices (Device A/DA, Device B/DB, Little House/LH)
 
-- the ground station (GS)
+The CanSat serves as a prototype for a geostationary satellite that could provide services to a community, such as:
 
-- three gound devices (Device A/ DA, Device B/ DB, Litte House/ LH)
-
-The CanSat is kind of like a prototype of what would be a geostatical satellite that would provide services to a community, such as:
-
-- ensure communications security, through end-to-end encryption
-
-- monitor a forest area through a trained neural network which takes pictures and analyses the for any signes of fire 
-
-- provide data for conducting scientific experiments (we calculated the accelaration of gravity)
+- Ensuring communication security through end-to-end encryption.
+- Monitoring a forest area using a trained neural network that analyzes images for signs of fire.
+- Providing data for conducting scientific experiments (e.g., calculating the acceleration due to gravity).
 
 ## CanSat
-The CanSat code was written in Python and runs on a Raspberry 0. The code was mainly written by us, limiting librarys to those required by electrical components (GPS, BMP, LoRa etc.)
+The CanSat code was written in Python and runs on a Raspberry Pi Zero. The code was primarily developed by our team, with external libraries limited to those required by the electrical components (e.g., GPS, BMP, LoRa, etc.).
 
 ### Encryption
-The encryption is achieved through a combination of assymetric (RSA algorithm) and symmentric (Hill algorithm) encryption
+Encryption is achieved through a combination of asymmetric (RSA algorithm) and symmetric (Hill algorithm) encryption.
 
-At first, the keys for the symmetric encryption are sent via a handshake, using asymmetric encryption. After the handshake, all messages are encrypted in three layers:
+Initially, the keys for symmetric encryption are exchanged via a handshake using asymmetric encryption. After the handshake, all messages are encrypted in three layers:
 
-1. the message is encrypted with the sender's private assymetric keys. This serves as a digital signature, to ensure integrity.
+1. The message is encrypted with the sender's private asymmetric key. This acts as a digital signature to ensure integrity.
+2. The original sender, along with the already encrypted message, is encrypted using the final receiver's public key. This ensures authenticity.
+3. The final receiver, along with the already encrypted message, is encrypted with the symmetric keys used for communication between an intermediate node (either GS or CS) and the final receiver.
 
-2. the origina sender allong with the already encrypted message, are encrypted using the final reciever's public key. This is done to ensure authenticity.
-
-3. the final reciever along with the already encrypted message, are encrypted with the symmetric keys used for the communication between an intermediate node, that serves the final reciever (either GS or CS), and the final reciever. 
-
-The first two nodes of the message the message, which contain the current sender (either original or intermediate) and the next reciever, respectively remain un-encrypted.
+The first two nodes of the message, which contain the current sender (either original or intermediate) and the next receiver, respectively, remain unencrypted.
 
 ### Neural Network
-The Newral Network used for this project is an MLP (Multi-Layer Perceptron), which has been trained in our lab using data-sets found on the internet. On the CanSat runs only the prediction program.
+The neural network used for this project is an MLP (Multi-Layer Perceptron), which was trained in our lab using publicly available datasets. On the CanSat, only the prediction program is executed.
